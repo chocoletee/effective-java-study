@@ -31,3 +31,42 @@
 
   // 결과?
     ```
+#### 다른 예시(변경 가능한 객체 재사용)
+- 변경 불가능 객체뿐 아니라, 변경 가능한 객체도 재사용할 수 있다.
+```JAVA
+public class Person {
+    private final Date birthDate;
+
+    // 다른 필드와 메서드, 생성자 생략
+    
+    public boolean isBabyBoomer(){
+      // 생성비용이 높은 객체를 쓸데없이 생성한다
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        cal.set(1950,Calendar.JANUARY,1,0,0,0);
+        Date start = cal.getTime();
+        cal.set(1955,Calendar.JANUARY,1,0,0,0);
+        Date end = cal.getTime();
+        return birthDate.compareTo(start) >= 0 && birthDate.compareTo(end) < 0;
+    }
+}
+```
+- 아래와 같이 개선하면, Calendar, TimeZone, Date객체를 클래스 초기화시 한 번만 만든다.
+```JAVA
+public class Person {
+    private final Date birthDate;
+    private static final Date START;
+    private static final Date END;
+    static{
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        cal.set(1950,Calendar.JANUARY,1,0,0,0);
+        START = cal.getTime();
+        cal.set(1955,Calendar.JANUARY,1,0,0,0);
+        END = cal.getTime();
+    }
+     
+    public boolean isBabyBoomer(){
+        return birthDate.compareTo(START) >= 0 && birthDate.compareTo(END) < 0;
+    }
+}
+```
+- 위와 같이 개선되었더라도, isBabyBoomer 메서드가 한번도 호출되지 않는다면, START, END 필드는 쓸데없이 초기화 되었다고 봐야한다. 그런 상황은 초기화 지연기법(규칙71)을 사용하면 피할 수 있다.
