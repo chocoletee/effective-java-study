@@ -45,3 +45,31 @@
   - public으로 선언하면 공개 API의 일부가 되어, 삭제 혹은 수정할 수 없게 된다.
   - 어떤 상수들이 클래스로 추상화된 결과물의 핵심적 부분을 구성한다고 판단되는 경우, 해당 상수들을 public static final 필드로 선언하여 공개할 수 있다.
     - -> 이런 필드는 기본 자료형 혹은 변경 불가능 객체를 참조해야 함
+
+#### 3-1. public static final 배열 필드를 두거나, 배열 필드를 반환하는 접근자를 정의하면 안 된다.
+  - 배열 내용을 변경할 수 있게 되어, 보안 문제가 발생한다.
+
+```JAVA
+  // 보안 문제를 초래할 수 있는 코드
+  public static final String[] VALUES = {};
+
+  // 이렇게 바꾸자 - 첫번째 방식
+  // 변경 불가능한 public 리스트를 하나 만들자.
+  private static final String[] PR_VALUES = {};
+  public static final List<String> VALUES =
+    Collections.unmodifiableList(Arrays.asList(PR_VALUES));
+
+  // 이렇게 바꾸자 - 두번째 방식
+  // 배열을 복사해서 반환
+  private static final String[] PR_VALUES = {};
+  public static final String[] values() {
+    return PR_VALUES.clone();
+  }
+```
+  - 클라이언트가 어떤 작업을 원할지 따져보고 결정하자.
+
+### 4. 결론
+  - 접근 권한은 가능한 낮추라
+  - public API 설계 후, 다른 모든 클래스, 인터페이스 ,멤버는 API 제외하라.
+  - public static final 필드를 제외한 어떤 필드도 public ㄴㄴ
+  - public static final 필드가 참조하는 객체는 변경 불가능 객체로 만들라.
