@@ -20,11 +20,13 @@
 
 #### 3-1. 객체를 재사용 하도록 장려하라.
   - 자주 사용되는 값을 public static final 상수로 만들어 제공
+  
     ```JAVA
     public static final Complex ZERO = new Complex(0, 0);
     public static final Complex ONE = new Complex(1, 0);
     public static final Complex I = new Complex(0, 1);
     ```
+    
   - 위 접근법을 한 단계 개선하여 자주 사용 객체를 캐싱하여 정적 팩터리를 제공할 수 있음(__ ex : BinInteger__)
   - 자유로운 공유가 가능하다는 것은 방어적 복사본을 만들 필요가 없음을 뜻 하기도 함
 
