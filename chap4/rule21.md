@@ -22,6 +22,7 @@
   - ```SLC```객체는 문자열을 비교하는 데 사용될 수 있는 실행 가능 전략이다.
   - ```무상태 클래스```이다.
   - ```싱글턴 패턴```으로 쓸데없는 객체 생성을 방지할 수 있다.
+    
     ```JAVA
     class SLC {
       private SLC(){}
@@ -96,6 +97,7 @@
 ### 4. 전략 인터페이스가 자료형인 ```public static``` 필드를 갖는 ```호스트 클래스```를 정의하는 것도 방법이다.
   - 전략 인터페이스는 실행 가능 전략 객체들의 자료형 구실을 하기 때문에, 실가전클은 굳이 ```public```으로 공개할 필요가 없다.
   - 실가전클은 호스트 클래스의 ```private``` 중첩 클래스로 정의하면 된다.
+  
   ```JAVA
   public int compareToIgnoreCase(String var1) {
     return CASE_INSENSITIVE_ORDER.compare(this, var1);
