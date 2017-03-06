@@ -1,7 +1,8 @@
 ## 규칙 21. 전략을 표현하고 싶을 때는 함수 객체를 사용하라
   - 함수 포인터, 대리자, 람다처럼 특정 함수를 호출할 수 있는 능력을 저장하고 전달할 수 있도록 하는 것들이 있다.
   - 이런 친구들은 보통 함수의 인자로 함수를 전달 하기위해 사용
-    ```JAVA
+    
+    ```C
     void qsort (void *base, size_t nel, size_t width, int (*compare)(const void *, const void *))
     ```
     - 파라미터 :
