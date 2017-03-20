@@ -32,3 +32,30 @@
   // 이처럼 간결하게 쓸 수 있다.
   Map<String, List<String>> a = newHashMap();
 ```
+
+### 3. 제네릭 싱글턴 패턴
+  - 때론 변경이 불가능하지만 많은 자료형에 적용 가능한 객체를 만들어야 할 때가 있다캄..
+  - 제네릭은 ```삭제``` 과정을 통해 구현되므로 모든 필요한 형인자화 과정에 동일 객체를 활용할 수 있는데, 그러려면 필요한 형인자화 과정마다 같은 객체를 나눠주는 정적 팩터리 메서드를 작성해야 한다캄..
+  - ```Collections.reverseOrder, Collections.emptySet``` 여기 많인 쓴다고 하니 각자 참조..!
+#### 예시
+- T형의 값을 받고 반환하는 함수를 나타내는 인터페이스가 있다 카자..!
+```JAVA
+  public interface UnaryFunction<T> {
+    T apply(T arg);
+  }
+```
+- 항등함수를 구현해보자..! 무상태 함수이므로 새 함수를 계속 만드는 것은 낭비다. 제네릭 싱글턴으로 해결해주자.
+      ```JAVA
+        private static UnaryFunction<Object> IDENTITY_FUNCTION =
+          new UnaryFunction<Object>() {
+            public Object apply(Object arg) { return arg; }
+          }
+
+        @SuppressWarnings("언췍")
+        public static <T> UnaryFunction<T> identityFunction(){
+          return (UnaryFunction<T>) IDENTITY_FUNCTION;
+        }
+      ```
+    - IDENTITY_FUNCTION를 (UnaryFunction<T>)로 형변환하면 무점검 형변환 경고가 발생한다. 하지만 걱정마라.
+    인자를 수정없이 반환하므로, T가 무엇이든 간에 UnaryFunction<T>인 것처럼 써도 형 안정성이 보장된다. 그러니 경고를 억제해도 된다.
+    
