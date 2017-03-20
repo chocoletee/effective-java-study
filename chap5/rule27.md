@@ -45,17 +45,16 @@
   }
 ```
 - 항등함수를 구현해보자..! 무상태 함수이므로 새 함수를 계속 만드는 것은 낭비다. 제네릭 싱글턴으로 해결해주자.
-      ```JAVA
-        private static UnaryFunction<Object> IDENTITY_FUNCTION =
-          new UnaryFunction<Object>() {
-            public Object apply(Object arg) { return arg; }
-          }
+```JAVA
+  private static UnaryFunction<Object> IDENTITY_FUNCTION =
+    new UnaryFunction<Object>() {
+      public Object apply(Object arg) { return arg; }
+    }
 
-        @SuppressWarnings("언췍")
-        public static <T> UnaryFunction<T> identityFunction(){
-          return (UnaryFunction<T>) IDENTITY_FUNCTION;
-        }
-      ```
-    - IDENTITY_FUNCTION를 (UnaryFunction<T>)로 형변환하면 무점검 형변환 경고가 발생한다. 하지만 걱정마라.
-    인자를 수정없이 반환하므로, T가 무엇이든 간에 UnaryFunction<T>인 것처럼 써도 형 안정성이 보장된다. 그러니 경고를 억제해도 된다.
+  @SuppressWarnings("언췍")
+  public static <T> UnaryFunction<T> identityFunction(){
+    return (UnaryFunction<T>) IDENTITY_FUNCTION;
+  }
+```
+- IDENTITY_FUNCTION를 (UnaryFunction<T>)로 형변환하면 무점검 형변환 경고가 발생한다. 하지만 걱정마라. 인자를 수정없이 반환하므로, T가 무엇이든 간에 UnaryFunction<T>인 것처럼 써도 형 안정성이 보장된다. 그러니 경고를 억제해도 된다.
     
